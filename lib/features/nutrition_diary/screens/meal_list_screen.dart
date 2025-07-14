@@ -22,13 +22,15 @@ class MealListScreen extends StatelessWidget {
             if (state.status == MealStatus.loading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.status == MealStatus.loaded) {
-              final List<Meal> mealsForSelectedDate = state.sortedMeals;
+              final List<Meal> mealsForSelectedDate = state.meals
+                  .where((meal) => isSameDay(meal.date, state.currDateTime))
+                  .toList();
 
               int sumFats = 0;
               int sumProteins = 0;
               int sumCarbs = 0;
               int sumCalories = 0;
-              for (int i = 0; i < state.sortedMeals.length; i++) {
+              for (int i = 0; i < mealsForSelectedDate.length; i++) {
                 sumProteins += mealsForSelectedDate[i].proteins ?? 0;
                 sumFats += mealsForSelectedDate[i].fats ?? 0;
                 sumCarbs += mealsForSelectedDate[i].carbs ?? 0;
@@ -76,6 +78,10 @@ class MealListScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool isSameDay(DateTime a, DateTime b) {
+    return a.year == b.year && a.month == b.month && a.day == b.day;
   }
 }
 
