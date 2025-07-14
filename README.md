@@ -1,4 +1,4 @@
-# nutrition_calculator
+# nutrition_diary
 
 A new Flutter project.
 
